@@ -1,28 +1,34 @@
-def memo(fn):
-    cache = {}
-    miss = object()   
-    def wrapper(*args):
-        result = cache.get(args, miss)
+def deco(f,*args):
+    print('this is deco ')
+    def indeco():
+        print ('this is indeco scope')
+        f(args)
         
-        if result is miss:
-            result = fn(*args)
-            cache[args] = result
-            print('result is miss')
-        print('wrapper return %s'%(result,))
-        return result
-
-    return wrapper
+    print ('this is after f called in deco')
+    
+    return indeco
 
 
-@memo
-def fib(n):
-    if n < 2:
-        return n
-    return fib(n - 1) + fib(n - 2)
+@deco
+def otherfunc(s):
+    print('this is other function')
+    print ('you input',s)
 
 
-@memo
-def add(n):
-    if n<3:
-        return n
-    return fib(n-1)+fib(n-3)
+
+def deco1(func):
+    def _deco(a, b):
+        print("before myfunc() called.")
+        ret = func(a, b)
+        print("  after myfunc() called. result: %s" % ret)
+        return ret
+    return _deco
+ 
+@deco1
+def myfunc(a, b):
+    print(" myfunc(%s,%s) called." % (a, b))
+    return a + b
+ 
+myfunc(1, 2)
+myfunc(3, 4)
+    

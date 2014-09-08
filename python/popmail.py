@@ -3,11 +3,13 @@ import poplib,getpass,sys,mailconfig
 
 mailserver = mailconfig.popservername
 mailuser   = mailconfig.popusername
-mailpasswd = getpass.getpass('Passwordf for %s'%mailserver)
+mailpasswd = mailconfig.poppassword
+
 
 
 print('Connecting ...')
 server = poplib.POP3(mailserver)
+
 server.user(mailuser)
 server.pass_(mailpasswd)
 
