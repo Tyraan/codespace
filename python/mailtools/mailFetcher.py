@@ -23,14 +23,12 @@ class MailFetcher(MailTool):
 
     def connect(self):
         self.trace('Connecting ...')
-
         self.getPassword()
-
         server = poplib.POP3(self.popServer)
-
         server.user(self.popUser)
         server.pass_(self.popPassword)
         self.trace(server.getwelcome())
+
         return server
     fetchEncoding = pp13.mailconfig.fetchEncoding
     def decodeFullText(self,messageBytes):
