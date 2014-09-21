@@ -67,7 +67,7 @@ class MailSender(MailTool):
             msg.set_payload(bodytext, charset=bodytextEncoding)
         else:
             msg = MIMEMultipart()
-            self.addAttachements(msg, bodytext, attaches, bodytextEncoding, attachesEncodings)
+            self.addAttachments(msg, bodytext, attaches, bodytextEncoding, attachesEncodings)
         hdrenc = pp13.mailconfig.headerEncodeTo or 'utf-8'
 
         Subj = self.encodeHeader(Subj,hdrenc)
@@ -103,7 +103,9 @@ class MailSender(MailTool):
         self.trace(fullText[:self.tracesize])
 
         server = smtplib.SMTP(self.smtpServerName)
-        self.getPassWord()
+        server.ehlo()
+        server.starttls()
+        self.getPassword()
         self.authenticateServer(server)
 
         try:
@@ -111,7 +113,6 @@ class MailSender(MailTool):
         except:
             server.close()
             raise
-
         else:
             server.quit()
 
@@ -239,10 +240,10 @@ class MailSender(MailTool):
             return self.encodeHeader(headertext)
 
 
-    def authnticateServer(self, server):
+    def authenticateServer(self, server):
         pass
 
-    def getpassword(self):
+    def getPassword(self):
         pass
 
 
@@ -257,7 +258,7 @@ class MailSenderAuth(MailSender):
     def authenticateServer(self,server):
         server.login(self.smtpUser,self.smtpPassword)
 
-    def getpassword(self):
+    def getPassword(self):
         if not self.smtpPassword:
             try:
                 localfile = open(pp13.mailconfig.smtppasswdfile)

@@ -14,7 +14,7 @@ this change from file to package: nested modules imported here for bwcompat;
 
 """
 
-from .mailFethcer import *
+from .mailFetcher import *
 from .mailSender import *
 from .mailParser import *
 
